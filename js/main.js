@@ -12,7 +12,22 @@
         this.map = map;
         this.map.width = document.documentElement.clientWidth;
         this.map.height = document.documentElement.clientHeight;
+        this.setupBindings();
+        this.maximizeMap();
     }
+
+    UI.prototype.setupBindings = function () {
+        $(window).resize(function () {
+            this.maximizeMap();
+        }.bind(this));
+    };
+
+    UI.prototype.maximizeMap = function () {
+        this.map.width = $(window).width();
+        this.map.height = $(window).height();
+        this.map.resizeSvg(this.map.width, this.map.height);
+        this.map.draw();
+    };
 
     function Map(container) {
         this.container = container;
@@ -20,11 +35,22 @@
         this.height = 480;
         this.projection = d3.geo.equirectangular();
         this.path = d3.geo.path().projection(this.projection);
-        this.svg = d3.select(container).append('svg')
-            .attr('width', this.width)
-            .attr('height', this.height);
+        this.makeSvg();
         this.layers = [];
     }
+
+    Map.prototype.makeSvg = function () {
+        this.svg = d3.select(container).append('svg')
+            .attr('width', this.width)
+            .attr('height', this.height)
+            .attr('class', 'map-svg');
+    };
+
+    Map.prototype.resizeSvg = function (width, height) {
+        this.svg
+            .attr('width', width)
+            .attr('height', height);
+    };
 
     Map.prototype.addLayer = function (layer) {
         layer.map = this;
