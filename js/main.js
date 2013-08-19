@@ -40,16 +40,37 @@
     }
 
     Map.prototype.makeSvg = function () {
+        var zoom = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on('zoom', function () {
+                this.svgTransformLayer.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
+            }.bind(this));
+
         this.svg = d3.select(container).append('svg')
             .attr('width', this.width)
             .attr('height', this.height)
             .attr('class', 'map-svg');
+
+        this.svgTransformLayer = this.svg.append('g')
+            .attr('transform', 'translate(' + 0 + ',' + 0 + ')')
+            .call(zoom);
+
+        this.svgPointerEventsLayer = this.svgTransformLayer.append('rect')
+            .attr('width', this.width)
+            .attr('height', this.height)
+            .style('fill', 'none')
+            .style('pointer-events', 'all');
+
+        this.svgDataLayer = this.svgTransformLayer.append('g');
+
+        this.svgStack = [this.svg, this.svgTransformLayer, this.svgPointerEventsLayer, this.svgDataLayer];
     };
 
     Map.prototype.resizeSvg = function (width, height) {
-        this.svg
-            .attr('width', width)
-            .attr('height', height);
+        // Terrible
+        this.svgStack.forEach(function (e) {
+            e.attr('width', width).attr('height', height);
+        });
     };
 
     Map.prototype.addLayer = function (layer) {
@@ -81,7 +102,7 @@
         console.log('Drawing', this);
 
         for (var o in this.topology.objects) {
-            this.map.svg.insert('path', '.layer')
+            this.map.svgDataLayer.insert('path', '.layer')
                 .datum(topojson.feature(this.topology, this.topology.objects[o]))
                 .attr('d', this.map.path);
         }
