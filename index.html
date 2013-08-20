@@ -2,13 +2,29 @@
 <html>
 <head>
     <link rel='stylesheet' href='css/js-gis.css'>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="http://d3js.org/topojson.v1.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="js/main.js" charset="utf-8"></script>
+
+    <script data-main="js/main" src="js/require.js"></script>
 </head>
 <body>
-    <div id="container">
-    </div>
+    <div class="controls">
+        <div class="projection-ui">
+            <a href="http://github.com/mbostock/d3/wiki/Geo-Projections">Projection list 1</a><br>
+            <a href="https://github.com/d3/d3-geo-projection/">Projection list 2</a>
+            <form class="projection-form">
+                <input type="url" id="projection" placeholder="d3.geo.equirectangular()"></input>
+                <div class="submit">Submit</div>
+            </form>
+        </div>
+
+	   <div class="layers-ui">
+            <form class="add-layer-form">
+				<input type="url" id="layer-url" placeholder="Add layer (URL)"></input>
+				<div class="submit">Submit</div>
+			</form>
+		</div>
+
+		<div class="layers"></div>
+	</div>
+    <div id="container"></div>
 </body>
 </html>

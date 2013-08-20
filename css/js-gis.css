@@ -4,3 +4,27 @@ html, body {
     padding: 0;
     margin: 0;
 }
+
+.controls {
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	max-height: 80%;
+	max-width: 15%;
+    padding: 20px;
+	background-color: #EEE;
+}
+
+.layer-id {
+    margin: 10px 0;
+}
+
+.layer-controls {
+    /**/
+    float: right;
+}
+
+.layer {
+	background-color: #ABC;
+	width: 100%;
+}
