@@ -17,4 +17,4 @@ require([
         map.addLayer(new Layer('http://gist.github.com/gyng/5574607/raw/06a809ee72ffae428e674e2bd82cbed79fbaf5fe/worldmap.json'));
         // map.addLayer(new Layer('http://bl.ocks.org/mbostock/raw/6116436/98323f8372cb877f903d5bd69e7b5f31c80d8770/us.json'));
     });
-})();
+});

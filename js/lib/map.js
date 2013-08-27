@@ -22,17 +22,18 @@ Map.prototype.makeSvg = function () {
     var zoom = d3.behavior.zoom()
         .scaleExtent([1, 10])
         .on("zoom", function () {
+            // Do not call this from transform layer as it will cause pan jitter from transformation
             this.svgTransformLayer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
         }.bind(this));
 
     this.svg = d3.select(container).append('svg')
         .attr('width', this.width)
         .attr('height', this.height)
-        .attr('class', 'map-svg');
+        .attr('class', 'map-svg')
+        .call(zoom);
 
     this.svgTransformLayer = this.svg.append('g')
-        .call(zoom);
-        // .attr('transform', 'translate(' + 0 + ',' + 0 + ')')
+        .attr("transform", "translate(0, 0)");
 
     this.svgPointerEventsLayer = this.svgTransformLayer.append('rect')
         .attr('width', this.width)
